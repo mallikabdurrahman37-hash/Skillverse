@@ -1,1 +1,1072 @@
-<h1>Skillverse AI Website</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Skillverse | AI Mastermind & Creative Studio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600;800&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #D4AF37; /* Luxury Gold */
+            --primary-dim: #AA8C2C;
+            --accent: #00f2ff; /* Cyber Blue for AI */
+            --bg-dark: #050505;
+            --bg-card: #0f0f0f;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --glass: rgba(20, 20, 20, 0.7);
+            --border: rgba(212, 175, 55, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img, video { width: 100%; height: auto; display: block; }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary-dim), var(--primary));
+            color: #000;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #fff;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        /* --- HERO & CHATBOT SECTION --- */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.05), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(0, 242, 255, 0.05), transparent 40%);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text .highlight {
+            color: var(--primary);
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        /* Chatbot Interface */
+        .chat-interface {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), #000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.8rem;
+        }
+
+        .chat-status h4 { font-size: 0.9rem; font-family: 'Montserrat', sans-serif; margin-bottom: 2px;}
+        .chat-status span { font-size: 0.7rem; color: var(--accent); display: flex; align-items: center; gap: 5px; }
+        .status-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+
+        .chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=');
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .bot-msg {
+            align-self: flex-start;
+            background: rgba(255,255,255,0.1);
+            border-top-left-radius: 2px;
+            color: #fff;
+            border-left: 3px solid var(--accent);
+        }
+
+        .user-msg {
+            align-self: flex-end;
+            background: var(--primary-dim);
+            color: #000;
+            border-top-right-radius: 2px;
+            font-weight: 500;
+        }
+
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: var(--bg-card);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            border-radius: 30px;
+            color: #fff;
+            font-family: inherit;
+            outline: none;
+        }
+        
+        .chat-input-area input:focus { border-color: var(--primary); }
+
+        .send-btn {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .send-btn:hover { transform: scale(1.1); }
+
+        /* --- BIO SECTION --- */
+        .bio-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .bio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--accent);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        /* --- SERVICES SECTION --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            group: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .service-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: 0.3s;
+        }
+
+        .service-card:hover::before { transform: scaleX(1); }
+
+        /* --- PORTFOLIO SECTION (Parallax & Media) --- */
+        .portfolio-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #222;
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, #000, transparent);
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        /* Parallax effect container */
+        .parallax-section {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding: 100px 0;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .parallax-overlay {
+            background: rgba(0,0,0,0.7);
+            position: absolute;
+            inset: 0;
+        }
+
+        /* --- CONTACT SECTION --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .contact-item:hover { border-color: var(--primary); }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px; /* Prevents zoom on mobile */
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #000;
+            padding: 40px 0 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            color: #fff;
+        }
+
+        .social-btn:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .developer-credit {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .developer-credit span { 
+            color: var(--primary); 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- RESPONSIVE CSS (ANDROID FRIENDLY) --- */
+        @media (max-width: 992px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text p { margin: 0 auto 30px; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .chat-interface { height: 400px; margin-top: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background: #000;
+                flex-direction: column;
+                padding: 40px;
+                transition: 0.4s;
+                border-left: 1px solid var(--primary);
+            }
+
+            .nav-links.active { right: 0; }
+            .hamburger { display: block; }
+            
+            .hero-text h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            
+            .bio-wrapper { padding: 20px; }
+            
+            .contact-item { flex-direction: column; text-align: center; }
+            .footer-content { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">SKILL<span>VERSE</span></a>
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+                <li><a href="#about" onclick="toggleMenu()">About</a></li>
+                <li><a href="#services" onclick="toggleMenu()">Services</a></li>
+                <li><a href="#portfolio" onclick="toggleMenu()">Portfolio</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+                <li><a href="https://photo-video-editing.qwikbuild.com/" class="btn-outline" style="border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px;">Book Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+   <!-- HERO SECTION WITH CHATBOT -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>The AI Mastermind for <br> <span class="highlight">Creative & Tech</span></h1>
+                <p>Experience the synergy of high-end Video Editing, 3D Design, and Full-Stack Development powered by intelligent automation.</p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <a href="#services" class="btn btn-primary">Explore Services</a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                </div>
+            </div>
+
+            <!-- CHATBOT INTERFACE -->
+            <div class="chat-interface">
+                <div class="chat-header">
+                    <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+                    <div class="chat-status">
+                        <h4>Skillverse AI</h4>
+                        <span><div class="status-dot"></div> Online</span>
+                    </div>
+                </div>
+                <div class="chat-window" id="chatWindow">
+                    <div class="message bot-msg">
+                        Hello! I am Skillverse AI. I am a mastermind in Business, Editing, 3D Design, and Coding. Ask me anything about my skills!
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="userInput" placeholder="Ask about video editing, python, etc..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT / BIO SECTION -->
+    <section id="about" class="section-padding">
+        <div class="container">
+            <div class="section-title">The Creator</div>
+            <div class="section-subtitle">Passion meets Precision</div>
+            <div class="bio-wrapper">
+                <h3>About Me</h3>
+                <p>I am a multifaceted creative technologist with a deep passion for bringing digital visions to life. From the rhythm of music editing to the logic of backend programming, I bridge the gap between art and engineering. My journey is defined by a relentless pursuit of perfection in visual storytelling and functional code architecture.</p>
+                
+                <div class="bio-tags">
+                    <span class="tag">Video Editing</span>
+                    <span class="tag">Music Production</span>
+                    <span class="tag">3D Modeling</span>
+                    <span class="tag">Web Development</span>
+                    <span class="tag">Python/JS</span>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary"><i class="fas fa-download"></i> Download CV</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="section-padding">
+        <div class="container">
+            <div class="section-title">My Services</div>
+            <div class="section-subtitle">Comprehensive Digital Solutions</div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <i class="fas fa-video service-icon"></i>
+                    <h3>Video Editing</h3>
+                    <p>Cinematic cuts, color grading, VFX, and seamless transitions for YouTube, commercials, and reels.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <i class="fas fa-music service-icon"></i>
+                    <h3>Music Editing</h3>
+                    <p>Sound design, mixing, mastering, and audio synchronization for immersive auditory experiences.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <i class="fas fa-cube service-icon"></i>
+                    <h3>3D Designing</h3>
+                    <p>Product modeling, architectural visualization, and character design using industry-standard tools.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <i class="fas fa-code service-icon"></i>
+                    <h3>Programming</h3>
+                    <p>Custom software solutions, automation scripts, and algorithm optimization (Python, C++, Java).</p>
+                </div>
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <i class="fas fa-laptop-code service-icon"></i>
+                    <h3>Web Development</h3>
+                    <p>Responsive, high-performance websites using HTML5, CSS3, JavaScript, and modern frameworks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO SECTION -->
+    <section id="portfolio" class="section-padding">
+        <div class="container">
+            <div class="section-title">Portfolio</div>
+            <div class="section-subtitle">A Glimpse of My Best Work</div>
+
+            <div class="portfolio-tabs">
+                <button class="tab-btn active" onclick="filterGallery('all')">All</button>
+                <button class="tab-btn" onclick="filterGallery('image')">Images</button>
+                <button class="tab-btn" onclick="filterGallery('video')">Videos</button>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Placeholders: Replace src with real files later -->
+                <div class="gallery-item image">
+                    <!-- Placeholder using a colored div with text -->
+                    <div style="width:100%; height:100%; background:#333; display:flex; align-items:center; justify-content:center; color:#555;">Image 1 Placeholder</div>
+                    <!-- <img src="image1.png" alt="Project 1"> -->
+                    <div class="gallery-overlay"><h4>3D Render Project</h4></div>
+                </div>
+                
+                <div class="gallery-item video">
+                    <video controls>
+                        <!-- <source src="first.mp4" type="video/mp4"> -->
+                        Your browser does not support video.
+                    </video>
+                    <div class="gallery-overlay"><h4>Cinematic Edit</h4></div>
+                </div>
+
+                <div class="gallery-item image">
+                    <div style="width:100%; height:100%; background:#2a2a2a; display:flex; align-items:center; justify-content:center; color:#555;">Image 2 Placeholder</div>
+                    <!-- <img src="image2.png" alt="Project 2"> -->
+                    <div class="gallery-overlay"><h4>Web Design UI</h4></div>
+                </div>
+
+                <div class="gallery-item video">
+                     <video controls>
+                        <!-- <source src="second.mp4" type="video/mp4"> -->
+                        Your browser does not support video.
+                    </video>
+                    <div class="gallery-overlay"><h4>Music Visualizer</h4></div>
+                </div>
+                 
+                 <div class="gallery-item image">
+                    <div style="width:100%; height:100%; background:#222; display:flex; align-items:center; justify-content:center; color:#555;">Image 3 Placeholder</div>
+                    <div class="gallery-overlay"><h4>Logo Design</h4></div>
+                </div>
+
+                 <div class="gallery-item video">
+                     <video controls>
+                        <!-- <source src="third.mp4" type="video/mp4"> -->
+                        Your browser does not support video.
+                    </video>
+                    <div class="gallery-overlay"><h4>Vlog Edit</h4></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARALLAX BREAK -->
+    <div class="parallax-section" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        <div class="parallax-overlay"></div>
+        <div class="container" style="position:relative; z-index:2; text-align:center; color:white;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Ready to Elevate Your Content?</h2>
+            <a href="https://photo-video-editing.qwikbuild.com/" class="btn btn-primary">Book Now</a>
+        </div>
+    </div>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <div class="section-title">Get In Touch</div>
+            <div class="section-subtitle">Let's Create Something Legendary</div>
+
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <!-- NEW WEBSITE LINK ADDED HERE -->
+                    <a href="https://photo-video-editing.qwikbuild.com/" target="_blank" class="contact-item" style="border-color: var(--primary);">
+                        <div class="contact-icon" style="background: var(--primary); color: #000;"><i class="fas fa-globe"></i></div>
+                        <div>
+                            <h4 style="color: var(--primary);">LuminaryFrame Studios</h4>
+                            <p>Visit Official Website</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.instagram.com/hellborn.editor?igsh=YXNwdm52OWxydnpz" target="_blank" class="contact-item">
+                        <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+                        <div>
+                            <h4>Instagram</h4>
+                            <p>@hellborn.editor</p>
+                        </div>
+                    </a>
+
+                    <a href="https://youtube.com/@ayatserenity-t4i?si=uGpZe87XHRtJRdKH" target="_blank" class="contact-item">
+                        <div class="contact-icon"><i class="fab fa-youtube"></i></div>
+                        <div>
+                            <h4>YouTube</h4>
+                            <p>Ayat Serenity</p>
+                        </div>
+                    </a>
+
+                    <a href="https://wa.me/9239529167" target="_blank" class="contact-item">
+                        <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p>+92 395 291 67</p>
+                        </div>
+                    </a>
+
+                    <a href="mailto:Mallikabdurrahman37@gmail.com" class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>Mallikabdurrahman37@gmail.com</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Contact Form -->
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="#" class="logo">SKILL<span>VERSE</span></a>
+                
+                <div class="social-links">
+                    <a href="https://www.instagram.com/hellborn.editor?igsh=YXNwdm52OWxydnpz" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com/@ayatserenity-t4i?si=uGpZe87XHRtJRdKH" class="social-btn"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/9239529167" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://photo-video-editing.qwikbuild.com/" class="social-btn"><i class="fas fa-globe"></i></a>
+                </div>
+            </div>
+            
+            <div class="developer-credit">
+                <p>&copy; 2024 Skillverse. All Rights Reserved.</p>
+                <!-- DEVELOPER CREDIT AS REQUESTED -->
+                <p>Designed, Developed & Programmed by <span>Abdur Rahman Mallik</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // --- MOBILE MENU TOGGLE ---
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // --- PORTFOLIO FILTER ---
+        function filterGallery(type) {
+            const items = document.querySelectorAll('.gallery-item');
+            const btns = document.querySelectorAll('.tab-btn');
+            
+            // Toggle Active Button
+            btns.forEach(btn => {
+                if(btn.innerText.toLowerCase().includes(type) || (type === 'all' && btn.innerText === 'All')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Filter Items
+            items.forEach(item => {
+                if (type === 'all' || item.classList.contains(type)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // --- AI CHATBOT LOGIC ---
+        const chatWindow = document.getElementById('chatWindow');
+        const userInput = document.getElementById('userInput');
+        const BACKEND_API_URL = 'http://YOUR_BACKEND_URL/chat'; // Placeholder
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function scrollToBottom() {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // Typing Effect Function
+        function typeWriter(element, text, i = 0) {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                scrollToBottom();
+                setTimeout(() => typeWriter(element, text, i + 1), 30); // 30ms delay per char
+            }
+        }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // 1. Add User Message
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'message user-msg';
+            userMsgDiv.innerText = text;
+            chatWindow.appendChild(userMsgDiv);
+            
+            userInput.value = '';
+            scrollToBottom();
+
+            // 2. Add "Typing..." Indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot-msg';
+            typingDiv.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Thinking...';
+            typingDiv.id = 'typingIndicator';
+            chatWindow.appendChild(typingDiv);
+            scrollToBottom();
+
+            // 3. Backend Logic (Simulated for Frontend Demo)
+            try {
+                // UNCOMMENT BELOW when backend is ready
+                /*
+                const response = await fetch(BACKEND_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await response.json();
+                const aiResponse = data.reply;
+                */
+
+                // MOCK RESPONSE (Remove this block when backend is active)
+                // Simulated delay
+                await new Promise(r => setTimeout(r, 1500));
+                
+                // Simple keyword matching for demo
+                let aiResponse = "I can definitely help with that! As an expert in editing and code, tell me more about your project requirements.";
+                const lowerText = text.toLowerCase();
+                
+                if(lowerText.includes("video") || lowerText.includes("edit")) aiResponse = "Video editing is my forte. I handle cinematic cuts, color grading, and VFX. Are you looking for a YouTube style or a cinematic reel?";
+                else if(lowerText.includes("music") || lowerText.includes("audio")) aiResponse = "I specialize in sound design and mixing. I can ensure your audio is crisp and perfectly synced.";
+                else if(lowerText.includes("web") || lowerText.includes("code")) aiResponse = "From Python scripts to full-stack web development, I build robust digital solutions. What framework are you interested in?";
+                else if(lowerText.includes("price") || lowerText.includes("cost")) aiResponse = "My rates depend on the project scope. Please click 'Book Now' or check the Contact section to discuss details!";
+                
+                // 4. Remove Typing & Show Response
+                const typingInd = document.getElementById('typingIndicator');
+                if(typingInd) typingInd.remove();
+
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = 'message bot-msg';
+                chatWindow.appendChild(botMsgDiv);
+                
+                // Trigger Typing Effect
+                typeWriter(botMsgDiv, aiResponse);
+
+            } catch (error) {
+                console.error("Error:", error);
+                const typingInd = document.getElementById('typingIndicator');
+                if(typingInd) typingInd.remove();
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message bot-msg';
+                errorDiv.innerText = "I'm having trouble connecting to my brain server right now. Please try again later.";
+                chatWindow.appendChild(errorDiv);
+            }
+        }
+
+        // --- SCROLL ANIMATIONS ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Apply fade-in to cards
+        document.querySelectorAll('.service-card, .bio-wrapper').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+
+    </script>
+</body>
+</html>
