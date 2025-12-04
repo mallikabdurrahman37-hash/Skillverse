@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillverse | Abdur Rahman Mallik</title>
+    <meta name="description" content="Personal Portfolio of Abdur Rahman Mallik - Video Editor, Developer, Designer.">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (via CDN for Acode compatibility without build steps) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                        glassBorder: 'rgba(255, 255, 255, 0.1)',
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles (styles.css content) -->
+    <style>
+        /* Base Styles */
+        body {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Gradient Text */
+        .text-gradient-gold {
+            background: linear-gradient(to right, #fbbf24, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Typing Cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Hide Scrollbar but allow scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Navigation Transition */
+        #navbar {
+            transition: transform 0.3s ease-in-out, background-color 0.3s;
+        }
+        .nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        /* Chat Widget Animations */
+        #chat-widget-modal {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .chat-open {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            pointer-events: auto !important;
+        }
+        .chat-closed {
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans selection:bg-gold-500 selection:text-white overflow-x-hidden">
+
+    <!-- Background Ambient Glow -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-900/30 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-gold-600/20 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-blue-900/30 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 glass-panel border-b-0 top-0 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="font-serif text-2xl font-bold text-gradient-gold tracking-wider">Skillverse</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="hover:text-gold-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="#bio" class="hover:text-gold-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Bio</a>
+                        <a href="#services" class="hover:text-gold-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Services</a>
+                        <a href="#portfolio" class="hover:text-gold-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Portfolio</a>
+                        <a href="#contact" class="bg-gold-600 text-white hover:bg-gold-500 px-4 py-2 rounded-full text-sm font-medium transition-all shadow-lg shadow-gold-600/20">Contact</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden glass-panel border-t border-gray-700" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium hover:text-gold-400">Home</a>
+                <a href="#bio" class="block px-3 py-2 rounded-md text-base font-medium hover:text-gold-400">Bio</a>
+                <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium hover:text-gold-400">Services</a>
+                <a href="#portfolio" class="block px-3 py-2 rounded-md text-base font-medium hover:text-gold-400">Portfolio</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gold-400">Contact Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-16 z-10">
+        <div class="text-center px-4 max-w-4xl mx-auto">
+            <div class="mb-4 inline-block px-4 py-1 rounded-full border border-gold-500/30 bg-gold-500/10 backdrop-blur-sm">
+                <span class="text-gold-400 text-sm font-semibold tracking-widest uppercase">Welcome to my Universe</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-4 tracking-tight">
+                I am <span class="text-gradient-gold block md:inline mt-2 md:mt-0">Abdur Rahman Mallik</span>
+            </h1>
+            <div class="text-xl md:text-2xl text-gray-400 mb-8 h-8 font-light">
+                <span id="typing-text" class="typing-cursor"></span>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+                <a href="#portfolio" class="w-full sm:w-auto px-8 py-3 bg-white text-slate-900 rounded-full font-bold hover:bg-gray-200 transition-colors shadow-lg shadow-white/10">
+                    View Work
+                </a>
+                <a href="https://photo-video-editing.qwikbuild.com/" target="_blank" class="w-full sm:w-auto px-8 py-3 glass-panel text-white border border-gold-500/50 rounded-full font-bold hover:bg-gold-500/20 transition-all flex items-center justify-center gap-2">
+                    <span>Book Now</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+            <i data-lucide="chevron-down" class="w-8 h-8"></i>
+        </div>
+    </section>
+
+    <!-- Bio Section -->
+    <section id="bio" class="py-20 relative z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 md:p-12 md:flex items-center gap-12">
+                <div class="md:w-1/3 mb-8 md:mb-0 relative">
+                    <div class="aspect-square rounded-2xl overflow-hidden shadow-2xl shadow-gold-500/10 relative group">
+                        <!-- Placeholder for user profile image if they have one, using gradient for now -->
+                        <div class="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                           <span class="text-6xl">👨‍💻</span>
+                        </div>
+                        <div class="absolute inset-0 bg-gold-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                </div>
+                <div class="md:w-2/3">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold mb-6 text-white">The <span class="text-gold-400">Mastermind</span> Behind The Screen</h2>
+                    <p class="text-gray-300 leading-relaxed mb-6">
+                        Hello! I am <strong class="text-white">Abdur Rahman Mallik</strong>, a multidisciplinary creative professional driven by innovation. 
+                        My journey bridges the gap between technical logic and artistic expression. 
+                    </p>
+                    <p class="text-gray-300 leading-relaxed mb-8">
+                        At <a href="https://photo-video-editing.qwikbuild.com/" target="_blank" class="text-gold-400 hover:underline">LuminaryFrame Studios</a>, I bring visions to life. 
+                        Whether it's crafting cinematic <strong>Video Edits</strong>, engineering immersive <strong>Soundscapes</strong>, sculpting <strong>3D Models</strong>, 
+                        or architecting robust <strong>Web Solutions</strong> via Programming, I strive for perfection in every pixel and line of code.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle" class="text-gold-500 w-4"></i> Video Editing</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle" class="text-gold-500 w-4"></i> Web Dev</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle" class="text-gold-500 w-4"></i> 3D Design</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle" class="text-gold-500 w-4"></i> Music Editing</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle" class="text-gold-500 w-4"></i> Programming</div>
+                        <div class="flex items-center gap-2 text-sm text-gray-400"><i data-lucide="check-circle" class="text-gold-500 w-4"></i> Alim Student</div>
+                    </div>
+
+                     <div class="mt-8">
+                        <!-- Points to CV.pdf as requested -->
+                        <a href="CV.pdf" download class="inline-flex items-center gap-2 px-6 py-2 border border-slate-600 rounded-lg hover:border-gold-500 hover:text-gold-400 transition-colors">
+                            <i data-lucide="download" class="w-4 h-4"></i> Download CV
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-slate-900/50 z-10 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4">My Services</h2>
+                <div class="w-20 h-1 bg-gold-500 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-gold-500/20 rounded-xl flex items-center justify-center mb-6 text-gold-400">
+                        <i data-lucide="video" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Video Editing</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Cinematic storytelling, color grading, and visual effects that captivate audiences.</p>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mb-6 text-purple-400">
+                        <i data-lucide="code" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Web Development</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Modern, responsive websites built with cutting-edge technologies and clean code.</p>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6 text-blue-400">
+                        <i data-lucide="box" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">3D Design</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Realistic 3D modeling and rendering for products, games, and visualizations.</p>
+                </div>
+
+                <!-- Service Card 4 -->
+                <div class="glass-card p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-red-500/20 rounded-xl flex items-center justify-center mb-6 text-red-400">
+                        <i data-lucide="music" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Music Editing</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Professional audio mixing, mastering, and sound design.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 z-10 relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4">Portfolio Gallery</h2>
+                <p class="text-gray-400">Selected works from the archive</p>
+            </div>
+
+            <!-- Videos Grid -->
+            <h3 class="text-xl text-gold-400 mb-6 font-semibold pl-2 border-l-4 border-gold-500">Video Projects</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <!-- Video 1 -->
+                <div class="glass-card p-2 rounded-xl group relative overflow-hidden">
+                    <video class="w-full rounded-lg" controls preload="metadata" poster="https://placehold.co/600x340/0f172a/white?text=Video+Thumbnail">
+                        <source src="first.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="p-4">
+                        <h4 class="font-bold">Project Alpha</h4>
+                        <p class="text-xs text-gray-400">Editing & VFX</p>
+                    </div>
+                </div>
+                <!-- Video 2 -->
+                <div class="glass-card p-2 rounded-xl group relative overflow-hidden">
+                    <video class="w-full rounded-lg" controls preload="metadata" poster="https://placehold.co/600x340/0f172a/white?text=Video+Thumbnail">
+                        <source src="second.mp4" type="video/mp4">
+                    </video>
+                     <div class="p-4">
+                        <h4 class="font-bold">Project Beta</h4>
+                        <p class="text-xs text-gray-400">Sound Design</p>
+                    </div>
+                </div>
+                 <!-- Video 3 -->
+                 <div class="glass-card p-2 rounded-xl group relative overflow-hidden">
+                    <video class="w-full rounded-lg" controls preload="metadata" poster="https://placehold.co/600x340/0f172a/white?text=Video+Thumbnail">
+                        <source src="third.mp4" type="video/mp4">
+                    </video>
+                     <div class="p-4">
+                        <h4 class="font-bold">Project Gamma</h4>
+                        <p class="text-xs text-gray-400">Cinematic</p>
+                    </div>
+                </div>
+                 <!-- Video 4 -->
+                 <div class="glass-card p-2 rounded-xl group relative overflow-hidden">
+                    <video class="w-full rounded-lg" controls preload="metadata" poster="https://placehold.co/600x340/0f172a/white?text=Video+Thumbnail">
+                        <source src="fourth.mp4" type="video/mp4">
+                    </video>
+                     <div class="p-4">
+                        <h4 class="font-bold">Project Delta</h4>
+                        <p class="text-xs text-gray-400">Commercial</p>
+                    </div>
+                </div>
+            </div>
+   <!-- Images Grid -->
+            <h3 class="text-xl text-gold-400 mb-6 font-semibold pl-2 border-l-4 border-gold-500">Design & 3D</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Use onerror to show placeholders if user hasn't uploaded files yet -->
+                <div class="aspect-video rounded-lg overflow-hidden glass-card">
+                    <img src="image1.png" loading="lazy" onerror="this.src='https://placehold.co/400x300/1e293b/white?text=Image+1'" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="aspect-video rounded-lg overflow-hidden glass-card">
+                    <img src="image2.png" loading="lazy" onerror="this.src='https://placehold.co/400x300/1e293b/white?text=Image+2'" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="aspect-video rounded-lg overflow-hidden glass-card">
+                    <img src="image3.png" loading="lazy" onerror="this.src='https://placehold.co/400x300/1e293b/white?text=Image+3'" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="aspect-video rounded-lg overflow-hidden glass-card">
+                    <img src="image4.png" loading="lazy" onerror="this.src='https://placehold.co/400x300/1e293b/white?text=Image+4'" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <section id="contact" class="py-20 bg-slate-950 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12">
+            
+            <!-- Contact Info & QR -->
+            <div>
+                <h2 class="text-3xl font-serif font-bold mb-6">Get In Touch</h2>
+                <p class="text-gray-400 mb-8">Ready to start your next project with LuminaryFrame Studios?</p>
+                
+                <div class="space-y-4 mb-8">
+                    <a href="https://photo-video-editing.qwikbuild.com/" target="_blank" class="flex items-center gap-4 p-4 glass-panel rounded-lg hover:bg-slate-800 transition">
+                        <i data-lucide="globe" class="text-gold-400"></i>
+                        <div>
+                            <div class="font-bold text-white">Official Website</div>
+                            <div class="text-xs text-gray-400">LuminaryFrame Studios</div>
+                        </div>
+                    </a>
+
+                    <a href="mailto:Mallikabdurrahman37@gmail.com" class="flex items-center gap-4 p-4 glass-panel rounded-lg hover:bg-slate-800 transition">
+                        <i data-lucide="mail" class="text-gold-400"></i>
+                        <span class="text-sm">Mallikabdurrahman37@gmail.com</span>
+                    </a>
+                    
+                    <a href="https://wa.me/9239529167" target="_blank" class="flex items-center gap-4 p-4 glass-panel rounded-lg hover:bg-slate-800 transition">
+                        <i data-lucide="message-circle" class="text-green-400"></i>
+                        <span class="text-sm">+92 39529167 (WhatsApp)</span>
+                    </a>
+
+                    <div class="flex gap-4 mt-6">
+                        <a href="https://www.instagram.com/hellborn.editor?igsh=YXNwdm52OWxydnpz" class="p-3 bg-slate-800 rounded-full hover:bg-pink-600 transition"><i data-lucide="instagram"></i></a>
+                        <a href="https://youtube.com/@ayatserenity-t4i?si=uGpZe87XHRtJRdKH" class="p-3 bg-slate-800 rounded-full hover:bg-red-600 transition"><i data-lucide="youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- UPI & QR -->
+                <div class="glass-card p-6 rounded-xl inline-block">
+                    <div class="text-xs text-center mb-2 text-gray-400 uppercase tracking-widest">Scan to Pay / Contact</div>
+                    <img src="QR.png" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=9239529167@fam'" alt="UPI QR Code" class="w-32 h-32 mx-auto rounded-lg mb-2">
+                    <div class="text-center font-mono text-xs text-gold-400 bg-black/30 p-1 rounded">9239529167@fam</div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <form action="mailto:Mallikabdurrahman37@gmail.com" method="POST" enctype="text/plain" class="glass-panel p-8 rounded-2xl shadow-xl">
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Name</label>
+                    <input type="text" name="name" class="w-full bg-slate-800/50 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-gold-500 transition-colors" placeholder="Your Name">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Subject</label>
+                    <select name="subject" class="w-full bg-slate-800/50 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-gold-500">
+                        <option>Video Editing Inquiry</option>
+                        <option>Web Development</option>
+                        <option>3D Design Project</option>
+                        <option>Music/Audio Services</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Message</label>
+                    <textarea name="message" rows="4" class="w-full bg-slate-800/50 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-gold-500 transition-colors" placeholder="Tell me about your project..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-gold-600 hover:bg-gold-500 text-white font-bold py-3 rounded-lg shadow-lg shadow-gold-600/20 transition-all flex items-center justify-center gap-2">
+                    Send Message <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+        
+        <div class="text-center mt-20 pt-8 border-t border-slate-800 text-gray-500 text-sm">
+            &copy; 2024 Abdur Rahman Mallik | LuminaryFrame Studios. All rights reserved.
+        </div>
+    </section>
+
+    <!-- AI Chatbot Widget -->
+    <div id="ai-widget-container" class="fixed bottom-6 right-6 z-50">
+        <!-- Chat Toggle Button -->
+        <button onclick="toggleChat()" class="relative group bg-gradient-to-r from-gold-500 to-amber-600 w-16 h-16 rounded-full shadow-2xl shadow-gold-500/30 flex items-center justify-center transform transition hover:scale-105 active:scale-95">
+            <span class="absolute -top-1 -right-1 flex h-4 w-4">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-slate-900"></span>
+            </span>
+            <i data-lucide="bot" class="text-white w-8 h-8"></i>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="chat-widget-modal" class="chat-closed absolute bottom-20 right-0 w-[90vw] md:w-96 h-[500px] glass-panel rounded-2xl flex flex-col shadow-2xl overflow-hidden border border-gold-500/20 origin-bottom-right">
+            <!-- Header -->
+            <div class="bg-slate-800/80 p-4 border-b border-gray-700 flex justify-between items-center backdrop-blur-md">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center">
+                        <i data-lucide="brain-circuit" class="text-white w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">Mastermind AI</h3>
+                        <div class="flex items-center gap-1">
+                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="text-xs text-gray-300">Online</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar bg-slate-900/40">
+                <!-- Initial Message -->
+                <div class="flex gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gold-600 flex-shrink-0 flex items-center justify-center text-xs">AI</div>
+                    <div class="bg-slate-800 p-3 rounded-2xl rounded-tl-none text-sm text-gray-200 border border-gray-700 shadow-sm">
+                        Hello! I am the Mastermind AI for Abdur Rahman Mallik. Ask me anything about Video Editing, Music, 3D Design, or Web Development.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-3 bg-slate-800/80 border-t border-gray-700 backdrop-blur-md">
+                <div class="relative flex items-center gap-2">
+                    <input type="text" id="userInput" placeholder="Ask the Mastermind..." class="w-full bg-slate-900 border border-gray-600 rounded-full py-3 pl-4 pr-12 text-sm text-white focus:outline-none focus:border-gold-500" onkeypress="handleEnter(event)">
+                    <button onclick="sendMessage()" class="absolute right-2 p-2 bg-gold-600 rounded-full text-white hover:bg-gold-500 transition-colors">
+                        <i data-lucide="send-horizontal" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic (app.js content) -->
+    <script>
+        // --- CONSTANTS ---
+        // REPLACE THIS URL when you deploy your backend (e.g. to Render/Heroku)
+        // For local Termux testing, keep it as localhost:3000
+        const CHAT_ENDPOINT = 'http://localhost:3000/api/chat'; 
+
+        // --- UI INITIALIZATION ---
+        lucide.createIcons();
+
+        // --- NAVBAR SCROLL EFFECT ---
+        let lastScroll = 0;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll <= 0) {
+                navbar.classList.remove('nav-hidden');
+                navbar.style.background = 'rgba(15, 23, 42, 0.6)'; // Glass at top
+            } else if (currentScroll > lastScroll) {
+                // Scrolling down
+                navbar.classList.add('nav-hidden');
+            } else {
+                // Scrolling up
+                navbar.classList.remove('nav-hidden');
+                navbar.style.background = 'rgba(15, 23, 42, 0.95)'; // Solid dark when scrolling up
+            }
+            lastScroll = currentScroll;
+        });
+
+        // --- MOBILE MENU ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // --- TYPING EFFECT ---
+        const textElement = document.getElementById('typing-text');
+        const phrases = [
+            "Video Editor", 
+            "Music Editor", 
+            "3D Designer", 
+            "Programmer", 
+            "Web Developer",
+            "Alim Student"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                typeSpeed = 50;
+            } else {
+                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+                typeSpeed = 100;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                typeSpeed = 2000; // Pause at end
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        
+        // Start typing on load
+        document.addEventListener('DOMContentLoaded', type);
+
+        // --- CHATBOT LOGIC ---
+        const chatModal = document.getElementById('chat-widget-modal');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('userInput');
+
+        function toggleChat() {
+            if (chatModal.classList.contains('chat-closed')) {
+                chatModal.classList.remove('chat-closed');
+                chatModal.classList.add('chat-open');
+                // Focus input on open
+                setTimeout(() => userInput.focus(), 300); 
+            } else {
+                chatModal.classList.remove('chat-open');
+                chatModal.classList.add('chat-closed');
+            }
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function appendMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = 'flex gap-3 ' + (sender === 'user' ? 'flex-row-reverse' : '');
+            
+            const avatar = document.createElement('div');
+            avatar.className = `w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs ${sender === 'user' ? 'bg-slate-600' : 'bg-gold-600'}`;
+            avatar.textContent = sender === 'user' ? 'ME' : 'AI';
+
+            const bubble = document.createElement('div');
+            bubble.className = `p-3 rounded-2xl text-sm max-w-[80%] ${sender === 'user' 
+                ? 'bg-gold-600 text-white rounded-tr-none' 
+                : 'bg-slate-800 text-gray-200 border border-gray-700 rounded-tl-none'}`;
+            bubble.innerHTML = text; // allow HTML for simple formatting
+
+            div.appendChild(avatar);
+            div.appendChild(bubble);
+            chatMessages.appendChild(div);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function appendTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'flex gap-3';
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gold-600 flex-shrink-0 flex items-center justify-center text-xs">AI</div>
+                <div class="bg-slate-800 p-4 rounded-2xl rounded-tl-none border border-gray-700 flex gap-1 items-center h-10">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
+                    <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+                    <span class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // 1. Show user message
+            appendMessage(message, 'user');
+            userInput.value = '';
+
+            // 2. Show typing indicator
+            const typingId = appendTypingIndicator();
+
+            try {
+                // 3. API Call to your Termux/Node backend
+                const response = await fetch(CHAT_ENDPOINT, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message })
+                });
+
+                // Remove typing indicator
+                document.getElementById(typingId).remove();
+
+                if (!response.ok) throw new Error("Server unreachable");
+
+                const data = await response.json();
+                
+                // 4. Show AI Response (with Typewriter effect logic simplified for chat)
+                appendMessage(data.reply, 'ai');
+
+            } catch (error) {
+                document.getElementById(typingId).remove();
+                console.error(error);
+                appendMessage(`
+                    <span class="text-red-400">Error: Unable to reach the Mastermind.</span><br>
+                    <span class="text-xs text-gray-500">Ensure your backend server is running on port 3000.</span>
+                `, 'ai');
+            }
+        }
+    </script>
+</body>
+</html>
