@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Versa AI Public Test</title>
+    <style>
+        body { background-color: #000; color: #00ffcc; font-family: monospace; padding: 20px; }
+        .box { border: 1px solid #00ffcc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px; }
+        .user { color: white; text-align: right; margin: 5px; }
+        .bot { color: #00ffcc; text-align: left; margin: 5px; }
+        input { width: 70%; padding: 10px; background: #222; color: white; border: 1px solid #555; }
+        button { width: 20%; padding: 10px; background: #00ffcc; border: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>VERSA AI SYSTEM CHECK</h2>
+    <div id="status" style="color:yellow">Target: https://b3957a56737aa6.lhr.life</div>
+
+    <div class="box" id="chatBox">
+        <div class="bot">SYSTEM: Online. Waiting for input...</div>
+    </div>
+
+    <input type="text" id="userInput" placeholder="Type hello...">
+    <button onclick="sendMessage()">SEND</button>
+
+    <script>
+        // YOUR NEW PUBLIC URL FROM THE QR CODE SCREENSHOT
+        const API_URL = "https://b3957a56737aa6.lhr.life/chat";
+
+        async function sendMessage() {
+            const input = document.getElementById("userInput");
+            const chatBox = document.getElementById("chatBox");
+            const status = document.getElementById("status");
+            const text = input.value;
+
+            if (!text) return;
+
+            chatBox.innerHTML += `<div class="user">YOU: ${text}</div>`;
+            input.value = "";
+            status.innerText = "Sending to Termux...";
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+                chatBox.innerHTML += `<div class="bot">AI: ${data.reply}</div>`;
+                status.innerText = "STATUS: CONNECTED";
+                status.style.color = "#00ffcc";
+
+            } catch (error) {
+                chatBox.innerHTML += `<div class="bot" style="color:red">ERROR: Server Unreachable.<br>Check if 'node server.js' is running in Session 1.</div>`;
+                status.innerText = "STATUS: FAILED";
+                status.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
